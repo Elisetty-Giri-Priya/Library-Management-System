@@ -1,0 +1,36 @@
+CREATE DATABASE IF NOT EXISTS librarydb;
+USE librarydb;
+
+CREATE TABLE IF NOT EXISTS books (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  author VARCHAR(150) NOT NULL,
+  isbn VARCHAR(20) UNIQUE,
+  total_copies INT NOT NULL,
+  available_copies INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS members (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(150) UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS loans (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  book_id INT NOT NULL,
+  member_id INT NOT NULL,
+  loan_date DATE NOT NULL,
+  due_date DATE NOT NULL,
+  return_date DATE NULL,
+  FOREIGN KEY (book_id) REFERENCES books(id),
+  FOREIGN KEY (member_id) REFERENCES members(id)
+);
+
+INSERT INTO books (title, author, isbn, total_copies, available_copies) VALUES
+('Clean Code','Robert C. Martin','9780132350884',3,3),
+('Effective Java','Joshua Bloch','9780134685991',2,2);
+
+INSERT INTO members (name, email) VALUES
+('Alice','alice@example.com'),
+('Bob','bob@example.com');
